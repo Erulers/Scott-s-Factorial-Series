@@ -1,0 +1,670 @@
+\documentclass[12pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{setspace}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{caption}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.6em}
+\onehalfspacing
+
+\captionsetup{
+    font=small,
+    labelfont=bf,
+    justification=centering
+}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\title{\textbf{Scott's Factorial Series}}
+\author{Jaxson Scottlevoy Freeman\\
+\small Independent student researcher\\
+\small Corresponding author: \texttt{jaxsonstormy@gmail.com}}
+\date{October 2026}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+This paper studies the function defined by the series
+\[
+S(x)=
+\sum_{n=0}^{\infty}
+\frac{(-1)^n}{e^n(n!)^2}
+\left[
+\sin\left(\frac{x}{(n+1)!}\right)
+\right]^{2n+1}.
+\]
+The series combines alternating signs, factorial coefficients,
+and increasing odd powers of the sine function. We prove that
+it converges absolutely and uniformly on the real line. By
+extending the analysis to complex inputs, we show that the
+resulting function is entire and therefore has derivatives
+of every order. We also derive its Taylor expansion near the
+origin, establish global bounds, and obtain an error estimate
+for finite approximations. Finally, we examine the periodicity
+of the partial sums and discuss possible generalizations.
+\end{abstract}
+
+\noindent\textbf{Keywords:} factorial series; uniform convergence; entire functions; Taylor expansion; approximation error.
+
+\medskip
+\noindent\textbf{2020 Mathematics Subject Classification:} Primary 30D10; Secondary 40A30, 26A24.
+
+\section{Introduction}
+
+Infinite series provide a useful way to define functions and
+study their properties. The behavior of a series often depends
+on the relationship between its coefficients and its individual
+terms. Factorial coefficients are particularly useful because
+they can force rapid convergence even when the remaining
+factors vary with the input.
+
+Consider the function
+\[
+S(x)=
+\sum_{n=0}^{\infty}
+\frac{(-1)^n}{e^n(n!)^2}
+\left[
+\sin\left(\frac{x}{(n+1)!}\right)
+\right]^{2n+1}.
+\]
+
+Three features distinguish this series. Its coefficients
+decrease factorially, the argument of the sine contains a
+factorial, and the exponent of the sine increases with the
+summation index. The signs also alternate.
+
+These features raise several questions. Does the series
+converge for every real input? Is its sum continuous and
+differentiable? Can the function be represented by a Taylor
+series, and how accurately can it be approximated by a finite
+sum?
+
+The first part of this paper establishes convergence and
+continuity. The subsequent sections examine stronger
+regularity properties, behavior near the origin, global
+bounds, and numerical approximation. The arguments use
+standard results on uniform convergence and holomorphic
+functions; see, for example, Rudin~\cite{rudin} and
+Conway~\cite{conway}.
+
+\section{Definition and Basic Properties}
+
+\subsection{The series and its partial sums}
+
+\begin{definition}[Scottlevoy's Factorial Series]
+For \(x\in\mathbb{R}\), define
+\[
+S(x)=
+\sum_{n=0}^{\infty}
+\frac{(-1)^n}{e^n(n!)^2}
+\left[
+\sin\left(\frac{x}{(n+1)!}\right)
+\right]^{2n+1}.
+\]
+\end{definition}
+
+Here, \(e\) is Euler's number and \(n!\) denotes the factorial
+of the nonnegative integer \(n\), with \(0!=1\).
+
+Write the \(n\)-th term as
+\[
+a_n(x)=
+\frac{(-1)^n}{e^n(n!)^2}
+\left[
+\sin\left(\frac{x}{(n+1)!}\right)
+\right]^{2n+1}.
+\]
+
+The \(N\)-th partial sum is
+\begin{equation}
+S_N(x)=\sum_{n=0}^{N}a_n(x).
+\label{eq:partial-sum}
+\end{equation}
+
+Each partial sum is a finite combination of trigonometric
+functions. The infinite series is obtained by taking the
+limit of these partial sums, provided that the limit exists.
+
+\subsection{The first terms}
+
+The first five terms are displayed in
+Table~\ref{tab:first-terms}.
+
+\begin{table}[htbp]
+\centering
+\caption{The first five terms of the series.}
+\label{tab:first-terms}
+\renewcommand{\arraystretch}{1.5}
+\setlength{\tabcolsep}{7pt}
+
+\begin{tabular}{c c c c}
+\toprule
+\(n\) & Sign & Coefficient & Sine factor \\
+\midrule
+\(0\) & \(+\) & \(1\) &
+\(\sin(x)\) \\
+
+\(1\) & \(-\) & \(\dfrac{1}{e}\) &
+\(\sin^3\left(\dfrac{x}{2}\right)\) \\
+
+\(2\) & \(+\) & \(\dfrac{1}{4e^2}\) &
+\(\sin^5\left(\dfrac{x}{6}\right)\) \\
+
+\(3\) & \(-\) & \(\dfrac{1}{36e^3}\) &
+\(\sin^7\left(\dfrac{x}{24}\right)\) \\
+
+\(4\) & \(+\) & \(\dfrac{1}{576e^4}\) &
+\(\sin^9\left(\dfrac{x}{120}\right)\) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The factorials enter the series in two different ways. The
+coefficient decreases as \(n\) increases, while the argument
+of the sine becomes smaller for any fixed \(x\). The increasing
+exponent further changes the contribution of each term.
+
+These effects suggest that the later terms should become
+small. A convergence proof is needed, however, to establish
+that their infinite sum is well-defined.
+
+\section{Convergence and Continuity}
+
+\subsection{Absolute and uniform convergence}
+
+\begin{theorem}
+The series defining \(S(x)\) converges absolutely and uniformly
+on \(\mathbb{R}\).
+\end{theorem}
+
+\begin{proof}
+For every real \(x\),
+\[
+\left|\sin\left(\frac{x}{(n+1)!}\right)\right|\leq 1.
+\]
+It follows that
+\[
+|a_n(x)|\leq \frac{1}{e^n(n!)^2}.
+\]
+
+Consider the numerical series
+\[
+\sum_{n=0}^{\infty}\frac{1}{e^n(n!)^2}.
+\]
+The ratio of consecutive terms is
+\[
+\frac{1/[e^{n+1}((n+1)!)^2]}
+     {1/[e^n(n!)^2]}
+=\frac{1}{e(n+1)^2}.
+\]
+This ratio tends to zero as \(n\to\infty\), so the numerical
+series converges by the ratio test.
+
+The Weierstrass \(M\)-test therefore proves that the original
+series converges uniformly on \(\mathbb{R}\)~\cite{rudin}. Since the same
+bound applies to the absolute values of its terms, the
+convergence is also absolute at every real \(x\).
+\end{proof}
+
+\begin{corollary}
+The function \(S\) is continuous on \(\mathbb{R}\).
+\end{corollary}
+
+\begin{proof}
+Each \(a_n(x)\) is continuous, so every partial sum \(S_N(x)\)
+is continuous. The uniform convergence of \(S_N\) to \(S\)
+then implies that \(S\) is continuous on \(\mathbb{R}\).
+\end{proof}
+
+\subsection{A global bound}
+
+The same estimate used in the convergence proof also gives
+a bound on the value of the function.
+
+\begin{proposition}
+For every \(x\in\mathbb{R}\),
+\[
+|S(x)|\leq
+\sum_{n=0}^{\infty}\frac{1}{e^n(n!)^2}
+\leq e^{1/e}.
+\]
+\end{proposition}
+
+\begin{proof}
+By the triangle inequality and the bound on each term,
+\[
+|S(x)|\leq
+\sum_{n=0}^{\infty}|a_n(x)|
+\leq
+\sum_{n=0}^{\infty}\frac{1}{e^n(n!)^2}.
+\]
+Since \(n!\geq 1\), we have
+\[
+\frac{1}{(n!)^2}\leq\frac{1}{n!}.
+\]
+Consequently,
+\[
+\sum_{n=0}^{\infty}\frac{1}{e^n(n!)^2}
+\leq
+\sum_{n=0}^{\infty}\frac{(1/e)^n}{n!}
+=e^{1/e}.
+\]
+This proves the result.
+\end{proof}
+
+Thus, although the sine factors depend on \(x\), the function
+remains bounded on the entire real line.
+
+\section{Differentiability and Analyticity}
+
+\subsection{The first derivative}
+
+Differentiating an individual term gives
+\begin{align}
+a_n'(x)
+={}&
+\frac{(-1)^n(2n+1)}
+{e^n(n!)^2(n+1)!}
+\nonumber\\
+&\quad{}\times
+\sin^{2n}\left(\frac{x}{(n+1)!}\right)
+\cos\left(\frac{x}{(n+1)!}\right).
+\label{eq:first-derivative}
+\end{align}
+
+Because the sine and cosine are bounded in absolute value
+by \(1\) on the real line,
+\[
+|a_n'(x)|
+\leq
+\frac{2n+1}{e^n(n!)^2(n+1)!}.
+\]
+
+The numerical series of these bounds converges by the ratio
+test. Therefore, the derivative series converges uniformly
+on \(\mathbb{R}\). The theorem on differentiating uniformly
+convergent series implies that \(S\) is continuously
+differentiable and that
+\[
+S'(x)=\sum_{n=0}^{\infty}a_n'(x).
+\]
+
+This establishes differentiability everywhere, rather than
+leaving it as an open question.
+
+\subsection{Higher derivatives}
+
+The regularity of \(S\) can be strengthened further by
+considering complex inputs.
+
+\begin{theorem}
+The series defining \(S\) converges locally uniformly on
+\(\mathbb{C}\). Its sum therefore extends to an entire
+function, and all derivatives of \(S\) exist and are
+continuous on \(\mathbb{R}\).
+\end{theorem}
+
+\begin{proof}
+Extend each term to a complex variable \(z\):
+\[
+a_n(z)=
+\frac{(-1)^n}{e^n(n!)^2}
+\sin^{2n+1}\left(\frac{z}{(n+1)!}\right).
+\]
+Each \(a_n\) is entire.
+
+For every complex number \(w\),
+\[
+|\sin w|\leq e^{|w|}.
+\]
+Fix \(R>0\) and suppose that \(|z|\leq R\). Then
+\[
+|a_n(z)|
+\leq
+\frac{1}{e^n(n!)^2}
+\exp\left(\frac{(2n+1)R}{(n+1)!}\right).
+\]
+
+The sequence
+\[
+\frac{2n+1}{(n+1)!}
+\]
+is bounded above by \(3/2\) for all nonnegative integers
+\(n\). Hence
+\[
+|a_n(z)|
+\leq
+\frac{e^{3R/2}}{e^n(n!)^2}.
+\]
+
+The right-hand side is summable and independent of \(z\)
+within the disk \(|z|\leq R\). The Weierstrass \(M\)-test
+therefore gives uniform convergence on every closed disk.
+
+A locally uniform limit of entire functions is entire~\cite{conway}.
+Consequently, the complex extension of \(S\) is entire,
+which proves the result.
+\end{proof}
+
+In particular, \(S\) is real analytic: near every real
+point, it is represented by a convergent Taylor series.
+The Taylor series about the origin in fact converges for
+every complex input.
+
+\section{Behavior Near the Origin}
+
+\subsection{The value and derivative at zero}
+
+Since every term contains a positive power of a sine factor,
+\[
+S(0)=0.
+\]
+
+The first term of the series is \(\sin x\). Every remaining
+term vanishes to order at least three at the origin.
+It follows that
+\[
+S'(0)=1.
+\]
+
+The function therefore behaves like the identity function
+near zero, in the sense that
+\[
+S(x)=x+O(x^3)
+\qquad\text{as }x\to 0.
+\]
+
+In particular,
+\[
+\lim_{x\to 0}\frac{S(x)}{x}=1.
+\]
+This also shows that \(S(x)\) is positive for sufficiently
+small positive \(x\) and negative for sufficiently small
+negative \(x\).
+
+\subsection{Taylor expansion}
+
+The Taylor expansion of the sine function is
+\[
+\sin t=t-\frac{t^3}{6}+\frac{t^5}{120}+O(t^7).
+\]
+
+For the second term of \(S\), we also use
+\[
+\sin^3 t=t^3-\frac{t^5}{2}+O(t^7).
+\]
+
+The terms with indices \(n=0,1,2\) contribute to the
+Taylor expansion through degree five. Every term with
+\(n\geq 3\) vanishes to order at least seven at zero.
+Combining these contributions gives
+\begin{align}
+S(x)
+={}&x-
+\left(\frac{1}{6}+\frac{1}{8e}\right)x^3
+\nonumber\\
+&+
+\left(
+\frac{1}{120}
++\frac{1}{64e}
++\frac{1}{31104e^2}
+\right)x^5
++O(x^7).
+\label{eq:taylor}
+\end{align}
+
+The coefficient of \(x^3\), for example, receives
+contributions from both \(\sin x\) and
+\(-e^{-1}\sin^3(x/2)\). The coefficient of \(x^5\)
+receives contributions from the first three terms.
+
+More generally, the term \(a_n(x)\) vanishes to order
+\(2n+1\) at zero. Therefore, the coefficient of \(x^{2k+1}\)
+in the Taylor expansion receives contributions only from
+indices \(n\leq k\). Each Taylor coefficient is thus
+determined by a finite calculation, even though \(S\) is
+defined by an infinite series.
+
+\section{Symmetry and Periodicity}
+
+\subsection{Odd symmetry}
+
+The exponent \(2n+1\) is odd, and the sine function is odd.
+Thus
+\[
+a_n(-x)=-a_n(x)
+\]
+for every \(n\) and every real \(x\).
+
+Summing the series gives
+\[
+S(-x)=-S(x).
+\]
+
+Hence \(S\) is an odd function. In particular, every even
+derivative of \(S\) at the origin vanishes:
+\[
+S^{(2k)}(0)=0,
+\qquad k=0,1,2,\ldots.
+\]
+
+This agrees with the Taylor expansion in
+Equation~\eqref{eq:taylor}, which contains only odd powers.
+
+\subsection{Periodicity of the partial sums}
+
+Although the full series is defined on the entire real line,
+each finite partial sum is periodic.
+
+\begin{proposition}
+For every nonnegative integer \(N\), the partial sum \(S_N\)
+has period \(2\pi(N+1)!\).
+\end{proposition}
+
+\begin{proof}
+For \(0\leq n\leq N\), replacing \(x\) by
+\(x+2\pi(N+1)!\) changes the argument of the sine by
+\[
+\frac{2\pi(N+1)!}{(n+1)!}.
+\]
+Because \((n+1)!\) divides \((N+1)!\), this quantity is
+an integer multiple of \(2\pi\).
+
+The sine factor in each term is therefore unchanged.
+Every term of \(S_N\) has the stated period, so their sum
+has that period as well.
+\end{proof}
+
+The periods supplied by this proposition increase with
+\(N\). The proposition establishes periodicity of every
+finite approximation, but it does not establish that the
+infinite sum has a finite period.
+
+\section{Numerical Approximation}
+
+\subsection{A uniform error estimate}
+
+The partial sums provide natural approximations to \(S(x)\).
+Their accuracy can be bounded independently of the value
+of \(x\).
+
+\begin{theorem}
+For every nonnegative integer \(N\) and every
+\(x\in\mathbb{R}\),
+\[
+|S(x)-S_N(x)|
+\leq
+\sum_{n=N+1}^{\infty}
+\frac{1}{e^n(n!)^2}.
+\]
+Moreover,
+\[
+|S(x)-S_N(x)|
+\leq
+\frac{1}{e^{N+1}((N+1)!)^2}
+\frac{1}{1-\dfrac{1}{e(N+2)^2}}.
+\]
+\end{theorem}
+
+\begin{proof}
+The first inequality follows directly from the triangle
+inequality and the bound
+\[
+|a_n(x)|\leq\frac{1}{e^n(n!)^2}.
+\]
+
+Let
+\[
+b_n=\frac{1}{e^n(n!)^2}.
+\]
+For \(n\geq N+1\),
+\[
+\frac{b_{n+1}}{b_n}
+=\frac{1}{e(n+1)^2}
+\leq\frac{1}{e(N+2)^2}.
+\]
+
+Set
+\[
+r_N=\frac{1}{e(N+2)^2}.
+\]
+Since \(0<r_N<1\), comparison with a geometric series gives
+\[
+\sum_{n=N+1}^{\infty}b_n
+\leq b_{N+1}\sum_{k=0}^{\infty}r_N^k
+=\frac{b_{N+1}}{1-r_N}.
+\]
+Substitution of \(b_{N+1}\) proves the second inequality.
+\end{proof}
+
+This estimate gives a rigorous stopping criterion for
+numerical calculations. Once the upper bound is smaller
+than a chosen tolerance, the partial sum approximates
+\(S(x)\) to within that tolerance for every real \(x\).
+
+The bound is conservative because it replaces every sine
+factor by its maximum possible absolute value. For a
+particular input, the actual error may be substantially
+smaller.
+
+\section{Possible Generalizations}
+
+The structure of the series suggests several variations.
+For example, one may introduce a parameter \(\lambda>0\)
+and consider
+\[
+S_{\lambda}(x)=
+\sum_{n=0}^{\infty}
+\frac{(-1)^n}{\lambda^n(n!)^2}
+\left[
+\sin\left(\frac{x}{(n+1)!}\right)
+\right]^{2n+1}.
+\]
+
+For each fixed \(\lambda>0\), the same comparison argument
+proves absolute and uniform convergence on \(\mathbb{R}\).
+Indeed,
+\[
+|a_{n,\lambda}(x)|
+\leq\frac{1}{\lambda^n(n!)^2},
+\]
+and the ratio of consecutive terms in the majorant is
+\[
+\frac{1}{\lambda(n+1)^2}\longrightarrow 0.
+\]
+
+Thus, the basic convergence result does not depend on
+the particular choice \(\lambda=e\). Other positive
+parameters can be studied using the same method.
+
+A second variation replaces the factorial in the sine
+argument by a more general sequence:
+\[
+T(x)=
+\sum_{n=0}^{\infty}
+c_n\left[\sin\left(\frac{x}{q_n}\right)\right]^{m_n},
+\]
+where \(c_n\), \(q_n\), and \(m_n\) are chosen sequences.
+If
+\[
+\sum_{n=0}^{\infty}|c_n|<\infty,
+\]
+then \(|\sin t|\leq 1\) immediately gives absolute and
+uniform convergence on the real line, provided the
+remaining terms have the stated form.
+
+This condition is sufficient rather than necessary.
+If the coefficients are not absolutely summable, the
+decay of the sine factors may still ensure convergence,
+but a different argument would be needed.
+
+These generalizations show that the convergence proof
+belongs to a broader class of series. A more detailed
+study could examine which choices of coefficients,
+arguments, and exponents lead to stronger properties
+or more useful approximations.
+
+\section{Conclusion}
+
+Scottlevoy's Factorial Series defines a bounded, odd,
+real-analytic function on the real line. The Weierstrass
+\(M\)-test establishes absolute and uniform convergence,
+and an extension to complex inputs shows that the function
+is entire. In particular, it has continuous derivatives
+of every order.
+
+The Taylor expansion describes the behavior near the
+origin, where \(S(0)=0\) and \(S'(0)=1\). A global bound
+controls the size of the function, while an explicit
+remainder estimate controls the error of its finite
+partial sums. The partial sums are also periodic, although
+their periods increase with the truncation index.
+
+Several questions remain open within the scope of this
+study. These include determining whether the infinite sum
+has a finite period, finding sharper bounds for its
+derivatives, and investigating how the function changes
+under different coefficient sequences. These questions
+provide ways to extend the analysis beyond the basic
+convergence and regularity results established here.
+
+
+\section{Acknowledgments}
+The author is a young independent student researcher and thanks the teachers and mentors who encouraged the pursuit of original mathematical exploration.
+
+\begin{thebibliography}{9}
+
+\bibitem{conway}
+J. B. Conway,
+\emph{Functions of One Complex Variable I},
+2nd ed., Graduate Texts in Mathematics, vol. 11,
+Springer-Verlag, New York, 1978.
+
+\bibitem{rudin}
+W. Rudin,
+\emph{Principles of Mathematical Analysis},
+3rd ed., International Series in Pure and Applied Mathematics,
+McGraw-Hill, New York, 1976.
+
+\end{thebibliography}
+
+\end{document}
